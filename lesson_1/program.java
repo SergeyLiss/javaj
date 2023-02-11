@@ -1,5 +1,6 @@
 //Написать программу вычисления n-ого треугольного числа
 package javaj.lesson_1;
+import java.util.Formatter;
 import java.util.Scanner;
 
 public class program {
@@ -7,7 +8,9 @@ public class program {
     public static int figure = 3;
     public static void main(String[] args) {
         number = InputNumber("Введите n-е треугольное число: ");
-        System.out.println(FigurateNumber());
+        Formatter temp = new Formatter();
+        temp.format("Ваше %d-е треугольное число: %d", number, FigurateNumber());
+        System.out.println(temp);
     }
 
     public static int InputNumber(String text) {
