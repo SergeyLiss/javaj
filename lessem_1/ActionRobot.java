@@ -1,7 +1,7 @@
 package javaj.lessem_1;
 import java.util.Scanner;
 
-public class program {
+public class ActionRobot {
     public static int[] number = {1,1};
     public static int[] number_command = {1,1};
     public static boolean[] flag_command = {false, false};
@@ -9,10 +9,12 @@ public class program {
     
     public static void main(String[] args) {
         inputAllNumber();
+        settingIf();
         System.out.println(number[0]);
         System.out.println(number[1]);
         System.out.println(number_command[0]);
         System.out.println(number_command[1]);
+
     }
 
     public static void inputAllNumber() {
@@ -21,12 +23,28 @@ public class program {
         number_command[0] = inputNumber("Введите число, для команды 'умножить': ");
         number_command[1] = inputNumber("Введите число, для команды 'сложить': ");
         scan.close();
+        
     }
 
-    // // Проверка условия получения одного числа из другого посредством комманд и установка флагов
-    // public static void settingFlag() {
-        
-    // }
+    // Проверка условия получения одного числа из другого посредством комманд и установка флага
+    public static void settingIf() {
+        if (number_command[1] == 1) { flag_command[0] = true;}
+        else {
+            int a = number[0] % number_command[1];
+            int b = number_command[0] % number_command[1];
+            int c = number[1] % number_command[1];
+            int d = 1;
+
+            for (int i = 0; i < number_command[1]; i ++) {
+                int f = (a * d) % number_command[1];
+                if (f == b) { flag_command[0] = true;}
+                d *= c;
+            }
+        }
+
+        if (flag_command[0]) { System.out.println("Resheniy est");}
+        else {System.out.println("Resheniy net");}
+    }
 
     // // Проверка флагов
     // public static void controlFlag() {
