@@ -8,20 +8,20 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class stepen {
-    public static int accuracy = 64; // Количество знаков после запятой
+    public static int accuracy = 10; // Количество знаков после запятой
     public static int step = 0; // Степень
     public static int osn = 0; // Основание неизменяемое
     public static BigDecimal osn_big = new BigDecimal(osn); // Основание изменяемое
     
     public static void main(String[] args) throws Exception {
-        ReadLineFromFile("javaj/lesson_2/input.txt");
-        String temp = Exponentiation().toString();
-        temp = ControlAccuracy(temp);
-        WriteToFile("javaj/lesson_2/output.txt", temp);
+        readLineFromFile("javaj/lesson_2/input.txt");
+        String temp = exponentiation().toString();
+        temp = controlAccuracy(temp);
+        writeToFile("javaj/lesson_2/output.txt", temp);
     }
 
     // Применение точности числа, если число не целое
-    public static String ControlAccuracy(String number) {
+    public static String controlAccuracy(String number) {
         String[] num = {"", ""}; 
         if (number.contains(".")) {
             int i = number.indexOf(".");
@@ -51,21 +51,21 @@ public class stepen {
     }
 
     // Чтение из файла "input.txt" строк
-    public static void ReadLineFromFile(String pathname) throws Exception {
+    public static void readLineFromFile(String pathname) throws Exception {
         BufferedReader buff = new BufferedReader(new FileReader(pathname));
         String line;
-        while ((line = buff.readLine()) != null) { ConvertStringToBaza(line);}
+        while ((line = buff.readLine()) != null) { convertStringToBaza(line);}
         buff.close();
     }
 
     // Создание и запись в файл "output.txt" результата возведения в степень
-    public static void WriteToFile(String pathname, String text) throws Exception {
+    public static void writeToFile(String pathname, String text) throws Exception {
         try (FileWriter file = new FileWriter(pathname, false)) { file.write(text);}
         catch (IOException ex) { System.out.println(ex.getMessage());}
     }
 
     // Нахождение основания и степени по ключу "a" & "b" соответственно
-    public static void ConvertStringToBaza(String line) {
+    public static void convertStringToBaza(String line) {
         if (line.contains("a")) {
             line = line.replaceAll("a ", "");
             osn = Integer.parseInt(line);
@@ -79,7 +79,7 @@ public class stepen {
     }
 
     // Проверка степени на отрицательное значение, при истине основание изменяем -> (1/osn_big)
-    public static void ControlStep() {
+    public static void controlStep() {
         if (step < 0) {
             osn_big = BigDecimal.ONE.divide(osn_big, accuracy, RoundingMode.HALF_UP);
             step = 0 - step;
@@ -87,8 +87,8 @@ public class stepen {
     }
 
     // Конвертирование INT в массив BOOLEAN
-    public static boolean[] ConvertIntToBoolArray(int n) {
-        int log = LogIntPrimitiv(n);
+    public static boolean[] convertIntToBoolArray(int n) {
+        int log = logIntPrimitiv(n);
         boolean[] temp = new boolean[log];
         for (int i = 0; i < log; i ++) {
             if ((n & 1) == 1) {temp[i] = true;}
@@ -99,7 +99,7 @@ public class stepen {
     }
 
     // Вычисление количества бит
-    public static int LogIntPrimitiv(int n) {
+    public static int logIntPrimitiv(int n) {
         int l = 0;
         while (n != 0){
             l ++;
@@ -109,10 +109,10 @@ public class stepen {
     }
 
     // Быстрое возведение в степень
-    public static BigDecimal Exponentiation() {
-        ControlStep();
+    public static BigDecimal exponentiation() {
+        controlStep();
         BigDecimal out_exp = osn_big;
-        boolean[] temp = ConvertIntToBoolArray(step);
+        boolean[] temp = convertIntToBoolArray(step);
         int size = temp.length - 1;
         for (int i = 0; i < size; i ++){
             out_exp = out_exp.multiply(out_exp);

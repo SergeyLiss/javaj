@@ -1,27 +1,24 @@
 //Написать программу вычисления n-ого треугольного числа
 package javaj.lesson_1;
-import java.util.Formatter;
 import java.util.Scanner;
 
 public class program {
     public static int number;
     public static int figure = 3;
     public static void main(String[] args) {
-        number = InputNumber("Введите n-е треугольное число: ");
-        Formatter temp = new Formatter();
-        temp.format("Ваше %d-е треугольное число: %d", number, FigurateNumber());
-        System.out.println(temp);
+        number = inputNumber(String.format("Введите n-ю позицию %d-угольного числа: ", figure));
+        System.out.println(String.format("Ваше %d-е %d-угольное число: %d", number, figure, figurateNumber()));
     }
 
-    public static int InputNumber(String text) {
+    public static int inputNumber(String string) {
         Scanner scan = new Scanner(System.in);
-        System.out.println(text);
+        System.out.println(string);
         int outnum = scan.nextInt();
         scan.close();
         return outnum;
     }
 
-    public static int FigurateNumber() {
+    public static int figurateNumber() {
         int temp = (number - 1) * number * (figure - 2) / 2;
         return temp + number;
     }

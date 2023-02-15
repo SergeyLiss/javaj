@@ -8,50 +8,50 @@ public class program {
     public static Scanner scan = new Scanner(System.in);
     
     public static void main(String[] args) {
-        InputAllNumber();
+        inputAllNumber();
         System.out.println(number[0]);
         System.out.println(number[1]);
         System.out.println(number_command[0]);
         System.out.println(number_command[1]);
     }
 
-    public static void InputAllNumber() {
-        number[0] = InputNumber("Введите начальное число: ");
-        number[1] = InputNumber("Введите конечное число: ");
-        number_command[0] = InputNumber("Введите число, для команды 'умножить': ");
-        number_command[1] = InputNumber("Введите число, для команды 'сложить': ");
+    public static void inputAllNumber() {
+        number[0] = inputNumber("Введите начальное число: ");
+        number[1] = inputNumber("Введите конечное число: ");
+        number_command[0] = inputNumber("Введите число, для команды 'умножить': ");
+        number_command[1] = inputNumber("Введите число, для команды 'сложить': ");
         scan.close();
     }
 
     // // Проверка условия получения одного числа из другого посредством комманд и установка флагов
-    // public static void SettingFlag() {
+    // public static void settingFlag() {
         
     // }
 
     // // Проверка флагов
-    // public static void ControlFlag() {
+    // public static void controlFlag() {
         
     // }
 
     // // Вычисление минимального
-    // public static boolean[] ComputationMinStep() {
+    // public static boolean[] computationMinStep() {
     //     boolean[] out_array = new boolean[20];
     //     return out_array;
     // }
 
     // // Вычисление всех возможных шагов с ограничением в 20 вариантов
-    // public static boolean[][] ComputationAllStep() {
+    // public static boolean[][] computationAllStep() {
     //     boolean[][] out_array = new boolean[20][20];
     //     return out_array;
     // }
 
     // // Конвертирование результата
-    // public static String ConvertResult(boolean[] in_array) {
+    // public static String convertResult(boolean[] in_array) {
     //     String out_string = " ";
     //     return out_string;
     // }
 
-    public static int InputNumber(String text) {
+    public static int inputNumber(String text) {
         System.out.println(text);
         int outnum = scan.nextInt();
         return outnum;
