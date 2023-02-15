@@ -22,11 +22,32 @@ public class stepen {
 
     // Применение точности числа, если число не целое
     public static String ControlAccuracy(String number) {
-        if (number.contains("E")) {
-            int index = number.indexOf("E");
-            number = number.substring(0, accuracy) + number.substring(index);
+        String[] num = {"", ""}; 
+        if (number.contains(".")) {
+            int i = number.indexOf(".");
+            int j = -1;
+            int min_index;
+
+            if (number.contains("E")) { j = number.indexOf("E");}
+
+            if (j == -1) { min_index = Integer.min((i + accuracy), number.length());}
+            else {
+                min_index = Integer.min((i + accuracy), j);
+                num[1] = number.substring(j);
+            }
+            num[0] = number.substring(0, min_index);
         }
-        return number;
+        
+        int len = num[0].length() - 1;
+        boolean flag = true;
+        while (flag) {
+            String a = num[0].substring(len, (len + 1));
+            if (a.equals("0")) { len --;}
+            else { flag = false;}
+        }
+        num[0] = num[0].substring(0, len);
+        
+        return num[0] + num[1];
     }
 
     // Чтение из файла "input.txt" строк
