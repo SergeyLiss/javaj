@@ -4,16 +4,18 @@ import java.util.Scanner;
 public class ActionRobot {
     public static int[] number = {1,1};
     public static int[] number_command = {1,1};
-    public static boolean[] flag_command = {false, false};
+    public static boolean flag_command;
+    public static int[] paths;
     public static Scanner scan = new Scanner(System.in);
     
     public static void main(String[] args) {
         inputAllNumber();
         settingIf();
-        System.out.println(number[0]);
-        System.out.println(number[1]);
-        System.out.println(number_command[0]);
-        System.out.println(number_command[1]);
+        controlFlag();
+        // System.out.println(number[0]);
+        // System.out.println(number[1]);
+        // System.out.println(number_command[0]);
+        // System.out.println(number_command[1]);
 
     }
 
@@ -23,12 +25,29 @@ public class ActionRobot {
         number_command[0] = inputNumber("Введите число, для команды 'умножить': ");
         number_command[1] = inputNumber("Введите число, для команды 'сложить': ");
         scan.close();
-        
     }
 
     // Проверка условия получения одного числа из другого посредством комманд и установка флага
     public static void settingIf() {
-        if (number_command[1] == 1) { flag_command[0] = true;}
+        if (number_command[1] == 0) {
+            int e = 3;
+            int a = number[0] % 3;
+            int b = number_command[0] % 3;
+            int c = number[1] % 3;
+            int d = 1;
+
+            for (int i = 0; i < e; i ++) {
+                int f = (a * d) % e;
+                if (f == b) { flag_command = true;}
+                d *= c;
+            }
+        }
+        else if (number_command[1] == 1) {
+            if ((number[0] < number[1]) || (number_command[0] < 0)) { flag_command = true;}
+        }
+        else if (number_command[1] == -1) {
+            if ((number[0] > number[1]) || (number_command[0] > 0)) { flag_command = true;}
+        }
         else {
             int a = number[0] % number_command[1];
             int b = number_command[0] % number_command[1];
@@ -37,25 +56,49 @@ public class ActionRobot {
 
             for (int i = 0; i < number_command[1]; i ++) {
                 int f = (a * d) % number_command[1];
-                if (f == b) { flag_command[0] = true;}
+                if (f == b) { flag_command = true;}
                 d *= c;
             }
         }
-
-        if (flag_command[0]) { System.out.println("Resheniy est");}
-        else {System.out.println("Resheniy net");}
     }
 
-    // // Проверка флагов
-    // public static void controlFlag() {
-        
-    // }
+    // Проверка флагов
+    public static void controlFlag() {
+        if (flag_command) {
+            System.out.println("Решение есть");
+            for (int item : numberOfPaths()) {
+                System.out.print(item);
+            }
+            
+        }
+        else {
+            System.out.println("Решений нет");
+        }
+    }
 
-    // // Вычисление минимального
-    // public static boolean[] computationMinStep() {
-    //     boolean[] out_array = new boolean[20];
-    //     return out_array;
-    // }
+    // Вычисление количества путей
+    public static int[] numberOfPaths() {
+        int size = number[1] > 0 ? number[1] : -number[1];
+        size -= number[0] > 0 ? number[0] : -number[0];
+        size ++;
+        System.out.println(size);
+        int[] out_array = new int[size];
+        out_array[0] = 1;
+        for (int i = 1; i < size; i ++) {
+            if (number_command[0] != 0) {
+                int a = number[0] + i;
+                if ((a % number_command[0]) == 0) {
+                    a /= number_command[0];
+                    a -= number[0];
+                    if ((a > 0) && (a < size)) {out_array[i] += out_array[a];}
+                }
+            }
+            int b = number[0] + i;
+            b -= number_command[1];
+            if ((b > 0) && (b < size)) {out_array[i] += out_array[b];}
+        }
+        return out_array;
+    }
 
     // // Вычисление всех возможных шагов с ограничением в 20 вариантов
     // public static boolean[][] computationAllStep() {
