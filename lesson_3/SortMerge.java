@@ -7,9 +7,10 @@ public class SortMerge {
     public static void main(String[] args) {
         System.out.println("Сортировка методом слияния...");
         ArrayList<Integer> array1 = createArray();
+        ArrayList<Integer> array2 = new ArrayList<>(array1);
+        array2 = mergeSort(array2);
         System.out.println("Исходный список:");
         System.out.println(array1);
-        ArrayList<Integer> array2 =mergeSort(array1);
         System.out.println("Отсортированный список:");
         System.out.println(array2);
     }
