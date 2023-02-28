@@ -6,7 +6,7 @@ public class Field {
     private static int[][] fieldMap; // Поле
     private static int[] fieldSize = new int[2]; // Столбцы, строки
     private static int[] points = new int[4]; // Координаты начала и конца
-    private static int filling = 2; // Количество циклов для случайного удаления стен
+    private static int filling = 4; // Вероятность постройки стены (1:filling)
     public Field(int column, int row) {
         fieldSize[0] = column;
         fieldSize[1] = row;
@@ -45,13 +45,7 @@ public class Field {
         Random rand = new Random();
 
         for (int i = 0; i < fieldSize[0]; i ++)
-            for (int j = 0; j < fieldSize[1]; j ++)
-                if (rand.nextBoolean()) {
-                    boolean flag = false;
-                    for (int k = 0; k < filling; k ++)
-                        if (rand.nextBoolean()) { flag = true;}
-
-                    if (flag) { fieldMap[i][j] = -1;}
-                }
+            for (int j = 0; j < fieldSize[1]; j ++) 
+                if (rand.nextInt(0, filling) == 0) { fieldMap[i][j] = -1;}
     }
 }
