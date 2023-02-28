@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
@@ -16,8 +17,8 @@ public class Play extends JComponent {
     private static int wW = ratio * (horizon[1] + 2); // Ширина окна
     private static int hW = ratio * (horizon[0] + 2); // Высота окна
     
-    public static GenerationField a = new GenerationField(horizon[0], horizon[1]); // Сгенерированный "лабиринт"
-    public static AlgoritmLi b = new AlgoritmLi(a.pather, a.field); // Волновой алгоритм
+    public static Field lab = new Field(horizon[0], horizon[1]); // Сгенерированный "лабиринт"
+    public static AlgoritmLi lab2 = new AlgoritmLi(lab.getMapSize()); // Волновой алгоритм
     
     private static Color exit = new Color(0, 0, 255, 200); // Выход
     private static Color way = new Color(0, 255, 0, 150); // Путь
@@ -28,6 +29,7 @@ public class Play extends JComponent {
     private static Font monoFont = new Font("Monospaced", Font.BOLD, fontSize); // Шрифт
 
     public void paintComponent(Graphics ender) {
+        
         super.paintComponent(ender);
         FontMetrics fstr = ender.getFontMetrics(); // Размер строки
 
@@ -36,18 +38,17 @@ public class Play extends JComponent {
         ender.fillRect(0, 0, getWidth(), getHeight());
 
         // Рамка вокруг активного поля
-        ender.setColor(Color.BLACK);
         int t = ratio >> 3; // Толщина линии
-        ender.fillRect((ratio-t), (ratio-t), (horizon[1]*ratio + 2*t), t);
-        ender.fillRect((ratio-t), (ratio-t), t, (horizon[0]*ratio + 2*t));
-        ender.fillRect((ratio-t), ((horizon[0] + 1)*ratio), (horizon[1]*ratio + 2*t), t);
-        ender.fillRect(((horizon[1] + 1)*ratio), (ratio-t), t, (horizon[0]*ratio + 2*t));
+        ender.setColor(Color.BLACK);
+        ender.fillRect((ratio-t), (ratio-t), (horizon[1]*ratio + 2*t), (horizon[0]*ratio + 2*t));
+        ender.setColor(Color.WHITE);
+        ender.fillRect(ratio, ratio, (horizon[1]*ratio), (horizon[0]*ratio));
 
         // Отрисовка стен на поле
         ender.setColor(wall);
         for (int i = 0; i < horizon[0]; i ++) {
             for (int j = 0; j < horizon[1]; j ++) {
-                if (a.field[i][j] == -1) {
+                if (lab.getMap()[i][j] == -1) {
                     int x = (i+1) * ratio;
                     int y = (j+1) * ratio;
                     ender.fillRect(y, x, ratio, ratio);
@@ -59,7 +60,7 @@ public class Play extends JComponent {
         ender.setColor(way);
         for (int i = 0; i < horizon[0]; i ++) {
             for (int j = 0; j < horizon[1]; j ++) {
-                if (b.pathOut[i][j] == 1) {
+                if (lab2.getPath()[i][j] == 1) {
                     int x = (i+1) * ratio;
                     int y = (j+1) * ratio;
                     ender.fillRect(y, x, ratio, ratio);
@@ -69,23 +70,23 @@ public class Play extends JComponent {
 
         // Отрисовка котейки (начало)
         ender.setColor(cat);
-        ender.fillRect(((a.pather[1]+1) * ratio), ((a.pather[0]+1) * ratio), ratio, ratio);
+        ender.fillRect(((lab.getPoints()[1]+1) * ratio), ((lab.getPoints()[0]+1) * ratio), ratio, ratio);
         // Отрисовка выхода (конец)
         ender.setColor(exit);
-        ender.fillRect(((a.pather[3]+1) * ratio), ((a.pather[2]+1) * ratio), ratio, ratio);
+        ender.fillRect(((lab.getPoints()[3]+1) * ratio), ((lab.getPoints()[2]+1) * ratio), ratio, ratio);
 
         // Нанесение возможных ходов
         ender.setColor(Color.BLACK);
         ender.setFont(monoFont);
         for (int i = 0; i < horizon[0]; i ++) {
             for (int j = 0; j < horizon[1]; j ++) {
-                if (b.fieldOut[i][j] != -1) {
-                    String ff = String.format("%d", b.fieldOut[i][j]);
+                if (lab2.getMapLi()[i][j] != -1) {
+                    String ff = String.format("%d", lab2.getMapLi()[i][j]);
                     int w = fstr.stringWidth(ff);
                     int h = fstr.getAscent() >> 2;
                     int x = (i+1) * ratio + fontSize + h;
                     int y = (j+1) * ratio + fontSize - w;
-                    ender.drawString(String.format("%d", b.fieldOut[i][j]), y, x);
+                    ender.drawString(String.format("%d", lab2.getMapLi()[i][j]), y, x);
                 }
             }
         }
@@ -101,56 +102,15 @@ public class Play extends JComponent {
     }
 
     public static void main(String[] args) {
+        lab.generationWall(); // Генерация стен
+        lab.generationPoints(); // Генерация старт/финиш
+        lab2.algoritmWave(lab.getPoints(), lab.getMap()); // Волновой алгоритм
+        lab2.searchPath(lab.getPoints()); // Поиск пути
+
         JFrame window = new JFrame("FieldCat");
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         window.getContentPane().add(new Play());
         window.pack();
         window.setVisible(true);
-    
-        // Вывод массивов из каждого шага для моего удобства
-        // System.out.println("############");
-        // for (int[] item : a.field) {
-        //     System.out.print("#");
-        //     for (int i : item) {
-        //         if (i == -1) {
-        //             System.out.print("#");
-        //         } else if (i == -2) {
-        //             System.out.print("+");
-        //         } else if (i == -3) {
-        //             System.out.print("*");
-        //         } else {
-        //             System.out.print(" ");
-        //         }
-        //     }
-        //     System.out.println("#");
-        // }
-        // System.out.println("############");
-    
-        // System.out.println(Arrays.toString(a.pather));
-    
-        // for (int[] item : a.field) {
-        //     for (int i : item) {
-        //         System.out.print(String.format("%3d", i));
-        //     }
-        //     System.out.println();
-        // }
-    
-        // System.out.println("\n");
-    
-        // for (int[] item : b.fieldOut) {
-        //     for (int i : item) {
-        //         System.out.print(String.format("%3d", i));
-        //     }
-        //     System.out.println();
-        // }
-
-        // System.out.println("\n");
-    
-        // for (int[] item : b.pathOut) {
-        //     for (int i : item) {
-        //         System.out.print(String.format("%3d", i));
-        //     }
-        //     System.out.println();
-        // }
     }
 }
