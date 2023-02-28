@@ -17,7 +17,7 @@ public class Play extends JComponent {
     private static int hW = ratio * (horizon[0] + 2); // Высота окна
     
     public static GenerationField a = new GenerationField(horizon[0], horizon[1]); // Сгенерированный "лабиринт"
-    public static LiAlg b = new LiAlg(a.pather, a.field); // Волновой алгоритм
+    public static AlgoritmLi b = new AlgoritmLi(a.pather, a.field); // Волновой алгоритм
     
     private static Color exit = new Color(0, 0, 255, 200); // Выход
     private static Color way = new Color(0, 255, 0, 150); // Путь

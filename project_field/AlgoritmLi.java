@@ -3,12 +3,12 @@ package javaj.project_field;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class LiAlg {
+public class AlgoritmLi {
     static boolean moveFlag = false;
     int[][] fieldOut;
     int[][] pathOut;
     
-    public LiAlg(int[] patherIn, int[][] fieldIn) {
+    public AlgoritmLi(int[] patherIn, int[][] fieldIn) {
         this.fieldOut = searchAllPath(patherIn, fieldIn);
         this.pathOut = searchPath(patherIn, this.fieldOut);
     }
