@@ -2,12 +2,12 @@ package javaj.obj_orn_prg.lesson_2;
 
 // Животное
 abstract class Animal {
-    String name = ""; // Имя
+    String name = "*"; // Имя
     int height = 0; // Рост
     int weight = 0; // Вес
-    String eyeColor = ""; // Цвет глаз
+    String eyeColor = "*"; // Цвет глаз
 
-    public void setAnimal(String n, int h, int w, String e) {
+    void setAnimal(String n, int h, int w, String e) {
         name = n;
         height = h;
         weight = w;
@@ -31,11 +31,11 @@ interface AnimalInter {
 
 // Домашнее животное
 abstract class Pet extends Animal {
-    String nickname = ""; // Кличка
-    String breed = ""; // Порода
+    String nickname = "*"; // Кличка
+    String breed = "*"; // Порода
     Boolean vaccinations = false; // Наличие прививок
-    String coatColor = ""; // Цвет шерсти
-    String birthDate = ""; // Дата рождения
+    String coatColor = "*"; // Цвет шерсти
+    String birthDate = "*"; // Дата рождения
 
     void setPet(String n, String b, Boolean v, String c, String d) {
         nickname = n;
@@ -58,8 +58,8 @@ interface PetInter extends AnimalInter {
 
 // Дикое животное
 abstract class Wild extends Animal {
-    String habitat; // Место обитания
-    String dateFound; // Дата нахождения
+    String habitat = "*"; // Место обитания
+    String dateFound = "*"; // Дата нахождения
 
     void setWild(String h, String f) {
         habitat = h;
@@ -73,7 +73,7 @@ abstract class Wild extends Animal {
 }
 
 abstract class Bird extends Animal implements AnimalInter {
-    protected int flightAltitude; // Высота полёта
+    protected int flightAltitude = 0; // Высота полёта
 
     public void setBird(int f) { flightAltitude = f;}
 
@@ -82,9 +82,12 @@ abstract class Bird extends Animal implements AnimalInter {
 
 // Кот
 class Cat extends Pet implements PetInter {
-    boolean wool; // Наличие шерсти
+    boolean wool = true; // Наличие шерсти
 
     public Cat() { name = "Кошак";}
+
+    void setWool(boolean w) { wool = w;}
+    boolean getWool() { return wool;}
 
     @Override
     public String voice() { return "мяу";}
@@ -100,7 +103,6 @@ class Cat extends Pet implements PetInter {
 
 // Тигр
 class Tiger extends Wild implements AnimalInter{
-
     public Tiger() { name = "Тигра";}
 
     @Override
@@ -114,13 +116,14 @@ class Tiger extends Wild implements AnimalInter{
 
 // Собака
 class Dog extends Pet implements PetInter {
-    boolean training; // Наличие дрессировки
+    boolean training = false; // Наличие дрессировки
 
     public Dog() { name = "Собакен";}
 
-    public String train() {
-        return "Дрессировка";
-    }
+    void setTraining(boolean t) { training = t;}
+    boolean getTraining() { return training;}
+
+    public String train() { return "Дрессировка";}
 
     @Override
     public String voice() { return "гав";}
@@ -136,9 +139,12 @@ class Dog extends Pet implements PetInter {
 
 // Волк
 class Wolf extends Wild implements AnimalInter{
-    boolean leader; // Вожак стаи
+    boolean leader = false; // Вожак стаи
 
     public Wolf() { name = "Волк";}
+
+    void setLeader(boolean l) { leader = l;}
+    boolean getLeader() { return leader;}
 
     @Override
     public String voice() { return "ррр";}
@@ -151,7 +157,6 @@ class Wolf extends Wild implements AnimalInter{
 
 // Курица
 class Chicken extends Bird {
-
     public Chicken() { name = "Курица";}
 
     @Override
@@ -163,7 +168,6 @@ class Chicken extends Bird {
 
 // Аист
 class Stork extends Bird {
-
     public Stork() { name = "Аист";}
 
     @Override
