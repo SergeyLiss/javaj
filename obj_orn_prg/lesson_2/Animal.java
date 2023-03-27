@@ -1,7 +1,7 @@
 package javaj.obj_orn_prg.lesson_2;
 
 // Животное
-abstract class AnimalField {
+abstract class Animal {
     String name = ""; // Имя
     int height = 0; // Рост
     int weight = 0; // Вес
@@ -20,7 +20,7 @@ abstract class AnimalField {
     }
 }
 
-public interface Animal {
+interface AnimalInter {
     
     // Издать звук
     String voice();
@@ -30,7 +30,7 @@ public interface Animal {
 }
 
 // Домашнее животное
-abstract class PetField extends AnimalField {
+abstract class Pet extends Animal {
     String nickname = ""; // Кличка
     String breed = ""; // Порода
     Boolean vaccinations = false; // Наличие прививок
@@ -51,13 +51,13 @@ abstract class PetField extends AnimalField {
     }
 }
 
-interface Pet extends Animal {
+interface PetInter extends AnimalInter {
     // Проявлять ласку
     String caress();
 }
 
 // Дикое животное
-abstract class WildField extends AnimalField {
+abstract class Wild extends Animal {
     String habitat; // Место обитания
     String dateFound; // Дата нахождения
 
@@ -72,9 +72,19 @@ abstract class WildField extends AnimalField {
     }
 }
 
+abstract class Bird extends Animal implements AnimalInter {
+    protected int flightAltitude; // Высота полёта
+
+    public void setBird(int f) { flightAltitude = f;}
+
+    public String getBird() { return String.format("Я лечу на %d метрах.\n", flightAltitude);}
+}
+
 // Кот
-class Cat extends PetField implements Pet {
+class Cat extends Pet implements PetInter {
     boolean wool; // Наличие шерсти
+
+    public Cat() { name = "Кошак";}
 
     @Override
     public String voice() { return "мяу";}
@@ -88,6 +98,80 @@ class Cat extends PetField implements Pet {
     }
 }
 
+// Тигр
+class Tiger extends Wild implements AnimalInter{
+
+    public Tiger() { name = "Тигра";}
+
+    @Override
+    public String voice() { return "рык";}
+    
+    @Override
+    public String toString() {
+        return super.getAnimal() + super.getWild();
+    }
+}
+
+// Собака
+class Dog extends Pet implements PetInter {
+    boolean training; // Наличие дрессировки
+
+    public Dog() { name = "Собакен";}
+
+    public String train() {
+        return "Дрессировка";
+    }
+
+    @Override
+    public String voice() { return "гав";}
+
+    @Override
+    public String caress() { return "Виляние хвостом";}
+    
+    @Override
+    public String toString() {
+        return super.getAnimal() + super.getPet() + String.format("Наличие дрессировки: %b\n", training);
+    }
+}
+
+// Волк
+class Wolf extends Wild implements AnimalInter{
+    boolean leader; // Вожак стаи
+
+    public Wolf() { name = "Волк";}
+
+    @Override
+    public String voice() { return "ррр";}
+    
+    @Override
+    public String toString() {
+        return super.getAnimal() + super.getWild() + String.format("Вожак стаи: %b\n", leader);
+    }
+}
+
+// Курица
+class Chicken extends Bird {
+
+    public Chicken() { name = "Курица";}
+
+    @Override
+    public String voice() { return "куда-х-чет";}
+    
+    @Override
+    public String toString() { return super.getAnimal();}
+}
+
+// Аист
+class Stork extends Bird {
+
+    public Stork() { name = "Аист";}
+
+    @Override
+    public String voice() { return "клекот";}
+    
+    @Override
+    public String toString() { return super.getAnimal();}
+}
 
 
 
