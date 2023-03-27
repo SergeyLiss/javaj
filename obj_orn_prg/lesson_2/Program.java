@@ -3,8 +3,8 @@ package javaj.obj_orn_prg.lesson_2;
 import java.util.Random;
 
 public class Program {
-    static Zoopark ten = new Zoopark();
-    static Random rand = new Random();
+    public static Zoopark ten = new Zoopark();
+    public static Random rand = new Random();
 
     public static void main() {
         // Кот, Тигр, Собака, Волк, Курица, Аист
