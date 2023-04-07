@@ -4,6 +4,7 @@ class Program {
 
     public static void main(String[] args) {
         String alf = "((4+84)7)-3*(9(64+7))";
+        Swith a = new Swith(alf);
     }
 
     
