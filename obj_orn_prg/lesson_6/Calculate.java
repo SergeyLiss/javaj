@@ -1,4 +1,4 @@
-package javaj.obj_orn_prg.lesson_5;
+package javaj.obj_orn_prg.lesson_6;
 
 import java.util.ArrayList;
 
@@ -31,7 +31,7 @@ public class Calculate {
             temp20 = temp20.replace(listNumber[i], "");}
         
         String[] temp11 = temp10.split(" ");
-        // String temp21;
+        String temp21;
         for(int i = 1; i < temp20.length(); i ++) {
             
         }
