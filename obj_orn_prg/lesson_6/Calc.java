@@ -5,17 +5,17 @@ public class Calc {
     Double a;
     Double b;
 
-    public Calc(String x, String y) {
-        this.a = Double.valueOf(x);
-        this.b = Double.valueOf(y);
-    }
+    public Calc() {}
+
+    void setA(Double x) { this.a = x;}
+    void setB(Double y) { this.b = y;}
 
     // Сложение
-    public Double addition() { return this.a + this.b;} 
+    public Double add() { return this.a + this.b;} 
     // Вычитание
-    public Double subtraction() { return this.a - this.b;} 
+    public Double sub() { return this.a - this.b;} 
     // Деление
-    public Double division() { return this.a / this.b;} 
+    public Double div() { return this.a / this.b;} 
     // Умножение
-    public Double multiplication() { return this.a * this.b;} 
+    public Double mul() { return this.a * this.b;} 
 }

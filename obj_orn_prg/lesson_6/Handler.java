@@ -5,21 +5,44 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Handler {
-    String[] elements;
-    int sizeElements;
-    ArrayList<Object> phrase;
+    private ArrayList<Object> phrase; // Выражение в удобном виде
+    private String[] elements; // Выражение в виде массива
+    private int sizeElements; // Размер строкового массива
+    private int step; // Переменная для метода convert()
 
     public Handler(String w) {
         this.elements = handlerStepSpace(w);
         this.sizeElements = elements.length;
-        this.phrase = convert(0);
+        this.step = 0;
+        this.phrase = convert();
     }
 
-    // Добавление пробелов между отдельными элементами выражения
+    // Преобразование в массив строк
     private String[] handlerStepSpace(String str) {
         String listSymbol = "()*/+-";
-        int i = 0;
+        int i = 1;
 
+        // Добавление знака умножить между числом и скобкой
+        while (str.length() > i) {
+            if (str.charAt(i) == '(') {
+                if (!listSymbol.contains(str.substring((i-1), i))) {
+                    str = str.substring(0, i) + "*"
+                        + str.substring(i, str.length());
+                }
+            }
+            else {
+                if (str.charAt((i-1)) == ')') {
+                    if (!listSymbol.contains(str.substring(i, (i+1)))) {
+                        str = str.substring(0,i) + "*"
+                            + str.substring(i, str.length());
+                    }
+                }
+            }
+            i ++;
+        }
+
+        // Добавление пробелов между элементами выражения
+        i = 0;
         while (str.length() > i) {
             if (listSymbol.contains(str.substring(i, (i+1)))){
                 str = str.substring(0,i) + " "
@@ -30,7 +53,7 @@ public class Handler {
             i ++;
         }
 
-        
+        // Удаление лишних пробелов
         i = 1;
         str = str.substring(i);
         while (str.length() > i) {
@@ -43,12 +66,24 @@ public class Handler {
         return str.split(" ");
     }
 
-    ArrayList<Object> getPhrase() { return phrase;}
-    String getElements() { return Arrays.toString(elements);}
-    int getSizeElements() { return sizeElements;}
+    ArrayList<Object> getPhrase() { return phrase;} // <- Выражение в ArrayList
+    String getElements() { return Arrays.toString(elements);} // <- Выражение в виде строки
+    int getSizeElements() { return sizeElements;} // <- Размер массива строк
 
-    ArrayList<Object> convert(int step) {
+    // Конертирование в ArrayList
+    ArrayList<Object> convert() {
+        ArrayList<Object> temp = new ArrayList<>();
 
-        return phrase;
+        while (step < sizeElements) {
+            if (elements[step].equals("(")) {
+                step ++;
+                temp.add(convert());
+            }
+            else if (elements[step].equals(")")) { return temp;}
+            else { temp.add(elements[step]);}
+            step ++;
+        }
+        
+        return temp;
     }
 }
